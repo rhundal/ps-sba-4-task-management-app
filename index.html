@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="script.js" defer></script>
+    <title>Task Management Application </title>
+</head>
+
+<body>
+
+    <!--grid grid-rows-2-->
+
+    <main class="flex flex-col w-full md:inline-block justify-center md:justify-start p-5">
+
+        <section class="flex flex-col md:inline-block mb-10 md:mb-15"> <!--input Area-->
+            <input type="text" id="taskName" placeholder="Enter task" class="border-1 border-black-100" />
+            <input type="text" id="categoryName" placeholder="Enter category" class="border-1 border-black-100" />
+            <input type="date" id="taskDueDate" value="2026-09-30" min="2026-09-18" max="2027-12-31"
+                class="border-1 border-black-100" />
+
+            <fieldset class="border-1 border-black-100 flex flex-col w-[80%] md:w-[50%] items-center">
+                <legend> Task Status :</legend>
+                <select name="currentStatus" id="statusDropDown" class="flex flex-col md:flex-row">
+                    <option value=""> Please Choose your initial status </option>
+                    <option value=" upcoming"> Upcoming </option>
+                    <option value="inprogress"> In Progress </option>
+                    <option value="overdue"> Overdue </option>
+                    <option value="completed"> Completed </option>
+                </select>
+            </fieldset>
+            <div class="flex flex-col md:flex-row gap-5 mt-5">
+                <input class="bg-blue border-1 border-grey-200 p-1" type="button" value="Add Task" id="addTask" />
+                <input class="bg-blue border-1 border-grey-200 p-1" type="button" value="Update Task" id="updateTask" />
+                <input class="bg-blue border-1 border-grey-200 p-1" type="button" value="Delete Task" id="deleteTask" />
+                <input class="bg-blue border-1 border-grey-200 p-1" type="button" value="Some Other Action" />
+            </div>
+        </section>
+
+        <section class="flex flex-col md:flex-row gap-15 justify-center" id="taskList"> <!--displayTaskBoard-->
+
+            <div class="md:inline-block border-1 border-black-100 h-auto w-full md:w-[20%]">
+                <div class="text-center">
+                    <h3 class="text-blue text-md font-bold"> Upcoming </h3>
+                    <div id="upcomingList">
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="md:inline-block border-1 border-black-100 h-auto w-full md:w-[20%]">
+                <div class="text-center">
+                    <h3 class="text-blue text-md font-bold"> In Progress </h3>
+                    <div id="inprogressList">
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="md:inline-block border-1 border-black-100 h-auto w-full md:w-[20%]">
+                <div class="text-center">
+                    <h3 class="text-blue text-md font-bold"> Overdue </h3>
+                    <div id="overdueList">
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="md:inline-block border-1 border-black-100 h-auto w-full md:w-[20%]">
+                <div class="text-center">
+                    <h3 class="text-blue text-md font-bold"> Completed </h3>
+                    <div id="completedList">
+
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>
