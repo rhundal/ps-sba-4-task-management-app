@@ -27,6 +27,21 @@ Completed
 const AVAILABLE_CATEGORIES = ["Work", "Personal", "School", "Errands"];
 let id_counter = 1;
 
+// capture userinput
+
+let taskName = document.getElementById("taskName");
+let categoryName = document.getElementById("categoryName");
+let dueDate = document.getElementById("taskDueDate");
+let initialStatus = document.getElementById("statusDropDown");
+
+const addTaskBtn = document.getElementById("addTask");
+const taskListArea = document.getElementById("taskList");
+
+let upcomingListSection = taskListArea.querySelector("#upcomingList");
+let inprogressListSection = taskListArea.querySelector("#inprogressList");
+let overdueListSection = taskListArea.querySelector("#overdueList");
+let completedListSection = taskListArea.querySelector("#completedList");
+
 let task = {
   id: null,
   name: "",
@@ -42,23 +57,35 @@ let upComingTasks,
   allTasks = [];
 
 function addTask(taskObj) {
+  // create new li
   allTasks.push(taskObj);
+  createListItem(taskObj);
 }
 
-// capture userinput
+function createListItem(taskObj) {
+  let listItem = document.createElement("li");
+  listItem.style.listStyle = "none";
+  listItem.style.border = "1px dotted black";
+  listItem.textContent = `${taskObj.name} ${taskObj.category} ${taskObj.deadline} ${taskObj.status}`;
 
-let taskName = document.getElementById("taskName");
-let categoryName = document.getElementById("categoryName");
-let dueDate = document.getElementById("taskDueDate");
-let initialStatus = document.getElementById("statusDropDown");
+  displayTask(listItem, taskObj);
+}
 
-const addTaskBtn = document.getElementById("addTask");
-const taskListArea = document.getElementById("taskList");
+function displayTask(itemToDisplay, taskObj) {
+  let statusSelected = taskObj.status.toLowerCase().trim();
 
-let upcomingListSection = taskListArea.querySelector("#upcomingList");
-let inprogressListSection = taskListArea.querySelector("#inprogressList");
-let overdueListSection = taskListArea.querySelector("#overdueList");
-let completedListSection = taskListArea.querySelector("#completedList");
+  if (statusSelected === "upcoming") {
+    upcomingListSection.appendChild(itemToDisplay);
+  } else if (statusSelected === "in progress") {
+    inprogressListSection.appendChild(itemToDisplay);
+  } else if (statusSelected === "overdue") {
+    overdueListSection.appendChild(itemToDisplay);
+  } else {
+    // completed
+
+    completedListSection.appendChild(itemToDisplay);
+  }
+}
 
 function constructTaskObj(nameEl, categoryEl, dueDateEl, statusEl) {
   let newTask = { ...task }; // 1. Make a fresh, separate copy of the template first
@@ -92,6 +119,8 @@ addTaskBtn.addEventListener("click", () => {
   );
 
   allTasks.push(newTaskCreated);
+
+  addTask(newTaskCreated);
 
   // Clear inputs after adding
   taskName.value = "";
