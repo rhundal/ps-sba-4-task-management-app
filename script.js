@@ -66,7 +66,8 @@ function createListItem(taskObj) {
   let listItem = document.createElement("li");
   listItem.style.listStyle = "none";
   listItem.style.border = "1px dotted black";
-  listItem.textContent = `${taskObj.name} ${taskObj.category} ${taskObj.deadline} ${taskObj.status}`;
+  listItem.classList.add("whitespace-pre-line");
+  listItem.textContent = `Task: ${taskObj.name} \nCategory: ${taskObj.category} \nDeadline: ${taskObj.deadline} \nStatus: ${taskObj.status}`;
 
   displayTask(listItem, taskObj);
 }
@@ -93,7 +94,7 @@ function constructTaskObj(nameEl, categoryEl, dueDateEl, statusEl) {
   newTask.id = id_counter++;
   newTask.name = nameEl.value;
   newTask.category = categoryEl.value;
-  newTask.deadline = new Date(dueDateEl.value);
+  newTask.deadline = new Date(dueDateEl.value).toLocaleDateString();
   newTask.status = statusEl.value;
 
   // 3. Return the independent copy
