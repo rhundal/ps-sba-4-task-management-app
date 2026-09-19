@@ -5,6 +5,25 @@ Include an “Add Task” button that will add the task to the task list.
 Each task should be stored as an object with properties such as task name, category, deadline, and status.
 Add the task object to an array that holds all tasks.
 
+2. Displaying the Task List [VIEW]
+Create an HTML structure (such as an unordered list or table) to display the task list.
+For each task, display the task name, category, deadline, and status.
+Dynamically update the task list in the browser each time a new task is added or a status is updated.
+
+3. Updating Task Status [UPDATE]
+Allow users to update the status of tasks (e.g., “In Progress,” “Completed”) via a dropdown or button.
+Automatically check each task’s deadline and mark tasks as “Overdue” if the current date has passed the deadline.
+Update the displayed task list whenever a task’s status changes.
+
+4. Filtering Tasks [SEARCH]
+Add functionality to filter tasks by category or status (e.g., show only “Completed” tasks or tasks under the “Work” category).
+Provide a dropdown or set of buttons for users to choose a filter.
+When a filter is selected, only display the tasks that match the selected category or status.
+
+5. Persisting Task Data with Local
+Use local storage to save the current state of the task list so that tasks are restored when the page is refreshed.
+Ensure that task data (including name, category, deadline, and status) is stored and retrieved correctly.
+
 Task Categories / Tags ⭐
 
 Allow tasks to belong to categories such as: drop down list (gives options)
@@ -36,6 +55,7 @@ let initialStatus = document.getElementById("statusDropDown");
 
 const addTaskBtn = document.getElementById("addTask");
 const taskListArea = document.getElementById("taskList");
+const updateTaskBtn = document.getElementById("updateTask");
 
 let upcomingListSection = taskListArea.querySelector("#upcomingList");
 let inprogressListSection = taskListArea.querySelector("#inprogressList");
@@ -67,8 +87,17 @@ function createListItem(taskObj) {
   listItem.style.listStyle = "none";
   listItem.style.border = "1px dotted black";
   listItem.classList.add("whitespace-pre-line");
-  listItem.textContent = `Task: ${taskObj.name} \nCategory: ${taskObj.category} \nDeadline: ${taskObj.deadline} \nStatus: ${taskObj.status}`;
+  listItem.textContent = `Task: ${taskObj.name} \nCategory: ${taskObj.category} \nDeadline: ${taskObj.deadline} \nStatus: ${taskObj.status}\n`;
 
+  let updateBtn = document.createElement("button");
+  updateBtn.innerText = "Update";
+  updateBtn.style.border = "3px solid pink";
+  updateBtn.style.backgroundColor = "#e6579e";
+  updateBtn.style.borderRadius = "4px";
+  updateBtn.style.fontWeight = "600";
+  updateBtn.setAttribute("id", taskObj.id_counter + "_" + taskObj.name);
+
+  listItem.appendChild(updateBtn);
   displayTask(listItem, taskObj);
 }
 
@@ -101,13 +130,21 @@ function constructTaskObj(nameEl, categoryEl, dueDateEl, statusEl) {
   return newTask;
 }
 
-addTaskBtn.addEventListener("click", () => {
-  //   console.log("task caught!");
-  //   console.log(taskNameInput);
-  //   console.log(categoryNameInput);
-  //   console.log(dueDateSelected);
-  //   console.log(statusSelected);
+function updateTaskObj(taskToUpdate) {
+  // update a specific list item
+  // right now only updates status
+  // redraw the list item
+  // move it if status is updated (also automatic)
+  let updatedTask = {};
+  let updatedListItem = null;
 
+  createListItem(updatedTask);
+  displayTask(updatedListItem, updatedTask);
+}
+
+// Implementing Buttons
+
+addTaskBtn.addEventListener("click", () => {
   // construct a list item
   // add it to the taskList
   // give crud operations to the list item
@@ -119,7 +156,7 @@ addTaskBtn.addEventListener("click", () => {
     initialStatus,
   );
 
-  allTasks.push(newTaskCreated);
+  //   allTasks.push(newTaskCreated);
 
   addTask(newTaskCreated);
 
@@ -130,4 +167,11 @@ addTaskBtn.addEventListener("click", () => {
   initialStatus.selectedIndex = 0;
 
   allTasks.forEach((task) => console.log(task));
+});
+
+updateBtn.addEventListener("click", (e) => {
+  let btnId = e.currentTarget.id;
+  let currentTaskId = btnId.split("_")[0];
+  let taskToUpdate = allTasks.find((task) => (task.id = currentTaskId));
+  updateTaskObj(taskToUpdate);
 });

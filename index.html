@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <script src="script.js" defer></script>
+    <!-- <script src="script.js" defer></script> -->
     <title>Task Management Application </title>
 </head>
 
@@ -17,7 +17,15 @@
 
         <section class="flex flex-col md:inline-block mb-10 md:mb-15"> <!--input Area-->
             <input type="text" id="taskName" placeholder="Enter task" class="border-1 border-black-100" />
-            <input type="text" id="categoryName" placeholder="Enter category" class="border-1 border-black-100" />
+            <input type="text" id="categoryName" list="categories" placeholder="{Work, School, Personal, Errands}"
+                class="border-1 border-black-100" />
+            <datalist id="categories">
+                <option value="Work"></option>
+                <option value="School"></option>
+                <option value="Personal"></option>
+                <option value="Errands"></option>
+            </datalist>
+
             <input type="date" id="taskDueDate" value="2026-09-30" min="2026-09-18" max="2027-12-31"
                 class="border-1 border-black-100" />
 
@@ -33,7 +41,6 @@
             </fieldset>
             <div class="flex flex-col md:flex-row gap-5 mt-5">
                 <input class="bg-blue border-1 border-grey-200 p-1" type="button" value="Add Task" id="addTask" />
-                <input class="bg-blue border-1 border-grey-200 p-1" type="button" value="Update Task" id="updateTask" />
                 <input class="bg-blue border-1 border-grey-200 p-1" type="button" value="Delete Task" id="deleteTask" />
                 <input class="bg-blue border-1 border-grey-200 p-1" type="button" value="Some Other Action" />
             </div>
@@ -47,6 +54,7 @@
 
                     <ul id="upcomingList"
                         class="block w-full min-h-[70px] text-black text-left p-2 border-3 border-dashed border-blue-600">
+
                     </ul>
                 </div>
             </div>
@@ -76,6 +84,7 @@
                     <h3 class="text-blue-600 text-md font-bold mb-4"> Completed </h3>
                     <ul id="completedList" class="block w-full min-h-[70px] text-black text-left p-2 border-3 border-dashed
                         border-green-600">
+
                     </ul>
 
                 </div>
