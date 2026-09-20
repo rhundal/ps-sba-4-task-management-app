@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <!-- <script src="script.js" defer></script> -->
+    <script src="./scripts/script.js" defer></script>
     <title>Task Management Application </title>
 </head>
 
@@ -42,7 +42,8 @@
             <div class="flex flex-col md:flex-row gap-5 mt-5">
                 <input class="bg-blue border-1 border-grey-200 p-1" type="button" value="Add Task" id="addTask" />
                 <input class="bg-blue border-1 border-grey-200 p-1" type="button" value="Delete Task" id="deleteTask" />
-                <input class="bg-blue border-1 border-grey-200 p-1" type="button" value="Some Other Action" />
+                <input class="bg-blue border-1 border-grey-200 p-1" type="button" value="Check If Overdue"
+                    id="checkOverdue" />
             </div>
         </section>
 
@@ -54,7 +55,6 @@
 
                     <ul id="upcomingList"
                         class="block w-full min-h-[70px] text-black text-left p-2 border-3 border-dashed border-blue-600">
-
                     </ul>
                 </div>
             </div>
@@ -93,6 +93,24 @@
 
         </section>
 
+        <dialog id="updateDialog" class="bg-[#C0C0C0] p-10 rounded-lg shadow-xl m-auto fixed inset-0">
+            <form method="dialog">
+                <p class="mb-5">
+                    <label class="font-semibold text-center">
+                        <select id="newStatus">
+                            <option value="default"> Choose new status: </option>
+                            <option class="text-blue-600" value="upcoming">Upcoming</option>
+                            <option class="text-orange-300" value="in progress">In Progress</option>
+                            <option class="text-red-600" value="overdue">Overdue</option>
+                            <option class="text-green-400" value="completed"> Completed </option>
+                        </select>
+                    </label>
+                </p>
+                <div>
+                    <button id="confirmBtn" value="default">Confirm</button>
+                </div>
+            </form>
+        </dialog>
     </main>
 
 </body>
