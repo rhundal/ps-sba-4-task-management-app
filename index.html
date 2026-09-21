@@ -6,19 +6,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="./scripts/script.min.js" defer></script>
+    <!-- <script src="./scripts/script.js" defer></script> -->
+
     <title>Task Management Application </title>
 </head>
 
 <body>
 
     <!--grid grid-rows-2-->
+    <!-- <div class=""> -->
 
-    <main class="flex flex-col w-full md:inline-block justify-center md:justify-start p-5">
+    <header class="w-full mx-auto border-3 border-[#917f6b] max-w-5xl mt-5 mb-5 justify-center text-center">
+        <h1 class=" text-[#917f6b] font-bold text-5xl"> ColorCue ~ </h1>
+        <h2 class="ml-5 text-[#917f6b] font-semibold text-lg"> Organize By Colors </h2>
+    </header>
+
+    <main class=" flex flex-col w-full md:inline-block justify-center md:justify-start p-5">
 
         <section class="flex flex-col md:inline-block mb-10 md:mb-15"> <!--input Area-->
-            <input type="text" id="taskName" placeholder="Enter task" class="border-1 border-black-100" />
+            <input type="text" id="taskName" placeholder="Enter task" class="border-3 border-[#917f6b]" />
             <input type="text" id="categoryName" list="categories" placeholder="{Work, School, Personal, Errands}"
-                class="border-1 border-black-100" />
+                class="border-3 border-[#917f6b]" />
             <datalist id="categories">
                 <option value="Work"></option>
                 <option value="School"></option>
@@ -27,9 +35,9 @@
             </datalist>
 
             <input type="date" id="taskDueDate" value="2026-09-30" min="2026-09-18" max="2027-12-31"
-                class="border-1 border-black-100" />
+                class="border-3 border-[#917f6b]" />
 
-            <fieldset class="border-1 border-black-100 flex flex-col w-[80%] md:w-[50%] items-center">
+            <fieldset class="border-3 border-[#917f6b] flex flex-col w-[80%] md:w-[50%] items-center">
                 <legend> Task Status :</legend>
                 <select name="currentStatus" id="statusDropDown" class="flex flex-col md:flex-row">
                     <option value="none"> Please Choose your initial status </option>
@@ -39,13 +47,28 @@
                     <option value="completed"> Completed </option>
                 </select>
             </fieldset>
-            <div class="flex flex-col md:flex-row gap-5 mt-5">
-                <input class="bg-blue border-1 border-grey-200 p-1" type="button" value="Add Task" id="addTask" />
-                <input class="bg-blue border-1 border-grey-200 p-1" type="button" value="Delete Task" id="deleteTask" />
-                <input class="bg-blue border-1 border-grey-200 p-1" type="button" value="Check If Overdue"
-                    id="checkOverdue" />
+            <div class="flex flex-col md:flex-row gap-5 mt-5 mb-5">
+                <input class="border-1 border-grey-200 p-1" type="button" value="Add Task" id="addTask" />
+                <input class="border-1 border-grey-200 p-1" type="button" value="Check If Overdue" id="checkOverdue" />
+            </div>
+            <div section="flex flex-col md:flex-row gap-5 mt-5"> <!-- filterSection -->
+
+                <input type="text" id="searchBtn" placeholder="Search Category or Status"
+                    class="border-3 border-[#917f6b]" />
+                <input class="border-1 border-grey-200 p-1" type="button" value="Filter Task" id="filterTask" />
+
+
             </div>
         </section>
+
+        <div class="dividerSection">
+
+            <h3 class="mb-2 text-[#917f6b] font-bold text-xl"> Task Board </h3>
+            <hr class="border-2 border-green-300 mb-15" />
+            <div class="resultsSection">
+
+            </div>
+        </div>
 
         <section class="flex flex-col md:flex-row gap-15 justify-center" id="taskList"> <!--displayTaskBoard-->
 
@@ -61,7 +84,7 @@
 
             <div class="md:inline-block border-1 border-black-100 h-auto w-full md:w-[20%]">
                 <div class="text-center">
-                    <h3 class="text-blue-600 text-md font-bold mb-4"> In Progress </h3>
+                    <h3 class="text-orange-600 text-md font-bold mb-4"> In Progress </h3>
                     <ul id="inprogressList"
                         class="block w-full min-h-[70px] text-black text-left p-2 border-3 border-dashed border-orange-300">
 
@@ -71,7 +94,7 @@
 
             <div class="md:inline-block border-1 border-black-100 h-auto w-full md:w-[20%]">
                 <div class="text-center">
-                    <h3 class="text-blue-600 text-md font-bold mb-4"> Overdue </h3>
+                    <h3 class="text-red-600 text-md font-bold mb-4"> Overdue </h3>
                     <ul id="overdueList"
                         class="block w-full min-h-[70px] text-black text-left p-2 border-3 border-dashed border-red-600">
 
@@ -81,7 +104,7 @@
 
             <div class="md:inline-block border-1 border-black-100 h-auto w-full md:w-[20%]">
                 <div class="text-center">
-                    <h3 class="text-blue-600 text-md font-bold mb-4"> Completed </h3>
+                    <h3 class="text-green-600 text-md font-bold mb-4"> Completed </h3>
                     <ul id="completedList" class="block w-full min-h-[70px] text-black text-left p-2 border-3 border-dashed
                         border-green-600">
 
@@ -112,7 +135,7 @@
             </form>
         </dialog>
     </main>
-
+    <!-- </div> -->
 </body>
 
 </html>
