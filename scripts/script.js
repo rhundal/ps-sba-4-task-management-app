@@ -1,4 +1,7 @@
 const AVAILABLE_CATEGORIES = ["Work", "Personal", "School", "Errands"];
+const AVAILABLE_STATUS = ["upcoming", "in progress", "overdue", "completed"];
+
+let typeOfFilter = null;
 // let id_counter = 1;
 
 // capture userinput
@@ -143,6 +146,53 @@ function checkTaskIfOverdue() {
     }
   });
 }
+
+function getFilterInput() {
+  let filterUserInput = document.getElementById("searchField");
+  let categoryToFilter = null,
+    statusToFilter = null;
+
+  AVAILABLE_CATEGORIES.forEach((category) => {
+    filterUserInput === category
+      ? (categoryToFilter = category)
+      : (categoryToFilter = null);
+  });
+
+  AVAILABLE_STATUS.forEach((status) => {
+    filterUserInput === status
+      ? (statusToFilter = status)
+      : (statusToFilter = null);
+  });
+
+  if (categoryToFilter != null) {
+    typeOfFilter = "category";
+  } else {
+    typeOfFilter = "status";
+  }
+
+  return categoryToFilter !== null ? categoryToFilter : statusToFilter;
+}
+
+function filterByCriteria(typeOfFilter) {
+  // get input from user
+  let userInput = getFilterInput();
+
+  let results = [];
+
+  if (typeOfFilter === "category") {
+    results = allTasks.filter((task) => task.category === userInput);
+  } else {
+    results = allTasks.filter((task) => task.status === userInput);
+  }
+
+  return results; // can return status or categories
+}
+
+function updateResultsByCategory() {
+  let resultsReturned = filterByCriteria(typeOfFilter);
+}
+
+function updateResultsByStatus() {}
 
 // Implementing Buttons
 
