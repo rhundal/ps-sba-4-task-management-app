@@ -1,8 +1,9 @@
 const AVAILABLE_CATEGORIES = ["Work", "Personal", "School", "Errands"];
 const AVAILABLE_STATUS = ["upcoming", "in progress", "overdue", "completed"];
 
-let typeOfFilter = null;
-// let id_counter = 1;
+let typeOfFilter = "";
+let userInput = null;
+let filterUserInput = "";
 
 // capture userinput
 
@@ -15,6 +16,7 @@ const addTaskBtn = document.getElementById("addTask");
 const taskListArea = document.getElementById("taskList");
 const updateTaskBtn = document.getElementById("updateTask");
 const checkOverdueBtn = document.getElementById("checkOverdue");
+const filterBtn = document.getElementById("filterTask");
 
 let upcomingListSection = taskListArea.querySelector("#upcomingList");
 let inprogressListSection = taskListArea.querySelector("#inprogressList");
@@ -147,52 +149,122 @@ function checkTaskIfOverdue() {
   });
 }
 
+// new added functions for filtering
+
 function getFilterInput() {
-  let filterUserInput = document.getElementById("searchField");
+  console.log("getFilterInput called");
+  filterUserInput = document
+    .getElementById("searchField")
+    .value.toLowerCase()
+    .trim();
   let categoryToFilter = null,
     statusToFilter = null;
 
-  AVAILABLE_CATEGORIES.forEach((category) => {
-    filterUserInput === category
-      ? (categoryToFilter = category)
-      : (categoryToFilter = null);
-  });
+  let isCategory = AVAILABLE_CATEGORIES.map((cat) =>
+    cat.toLowerCase(),
+  ).includes(filterUserInput);
 
-  AVAILABLE_STATUS.forEach((status) => {
-    filterUserInput === status
-      ? (statusToFilter = status)
-      : (statusToFilter = null);
-  });
+  let isStatus = AVAILABLE_STATUS.includes(filterUserInput);
 
-  if (categoryToFilter != null) {
+  if (isCategory) {
+    categoryToFilter = AVAILABLE_CATEGORIES.find(
+      (cat) => cat.toLowerCase() === filterUserInput,
+    );
     typeOfFilter = "category";
-  } else {
+  } else if (isStatus) {
+    statusToFilter = filterUserInput;
     typeOfFilter = "status";
+  } else {
+    typeOfFilter = "unknown";
+    return null;
   }
 
-  return categoryToFilter !== null ? categoryToFilter : statusToFilter;
+  return isCategory ? categoryToFilter : statusToFilter;
 }
 
-function filterByCriteria(typeOfFilter) {
+function filterByCriteria() {
   // get input from user
-  let userInput = getFilterInput();
+  userInput = getFilterInput(); // global variable
+  console.log("userInput " + userInput);
+
+  if (!userInput || typeOfFilter === "unknown") return [];
 
   let results = [];
 
   if (typeOfFilter === "category") {
-    results = allTasks.filter((task) => task.category === userInput);
+    results = allTasks.filter(
+      (task) => task.category.toLowerCase() === userInput.toLowerCase(),
+    );
   } else {
-    results = allTasks.filter((task) => task.status === userInput);
+    results = allTasks.filter(
+      (task) => task.status.toLowerCase() === userInput.toLowerCase(),
+    );
   }
 
   return results; // can return status or categories
 }
 
-function updateResultsByCategory() {
-  let resultsReturned = filterByCriteria(typeOfFilter);
+function updateResultsByCategory(filteredTasks) {
+  // needed hand holding to make this function perfect
+
+  let allSections = [
+    upcomingListSection,
+    inprogressListSection,
+    overdueListSection,
+    completedListSection,
+  ];
+
+  let isFieldEmpty = document.getElementById("searchField").value.trim() === "";
+  let showAll = isFieldEmpty;
+
+  allSections.forEach((section) => {
+    section.querySelectorAll("li").forEach((lisItem) => {
+      // let ItemIdBeforeConversion = lisItem.id.split("_")[0];
+      let ItemId = Number(lisItem.id.split("_")[0]);
+
+      let isFound =
+        showAll ||
+        filteredTasks.some((result) => {
+          return result.id === ItemId;
+        });
+
+      console.log("isFound " + isFound);
+      if (isFound) {
+        lisItem.style.display = "";
+      } else {
+        lisItem.style.display = "none";
+      }
+    });
+  });
 }
 
-function updateResultsByStatus() {}
+function updateResultsByStatus(filteredTasks) {
+  // let resultsReturnedForStatus = filterByCriteria(typeOfFilter); // redundant
+
+  let allSections = [
+    upcomingListSection,
+    inprogressListSection,
+    overdueListSection,
+    completedListSection,
+  ];
+
+  // Check if the input box is completely clear
+  let isFieldEmpty = document.getElementById("searchField").value.trim() === "";
+
+  allSections.forEach((section) => {
+    // If the search field is empty, UNHIDE all column sections instantly [1]
+    if (isFieldEmpty) {
+      section.style.display = "";
+    } else if (
+      section.id.toLowerCase() ===
+      userInput.replace(" ", "").toLowerCase() + "list"
+    ) {
+      section.style.display = "";
+    } else {
+      section.style.display = "none";
+    }
+  });
+}
 
 // Implementing Buttons
 
@@ -244,4 +316,37 @@ confirmBtn.addEventListener("click", (e) => {
 
 checkOverdueBtn.addEventListener("click", () => {
   checkTaskIfOverdue();
+});
+
+// filtering buttons
+
+filterBtn.addEventListener("click", function () {
+  let tasksCaught = filterByCriteria();
+
+  tasksCaught.forEach((task) => {
+    console.log(task);
+  });
+
+  if (typeOfFilter === "category") {
+    updateResultsByCategory(tasksCaught);
+  } else {
+    updateResultsByStatus(tasksCaught);
+  }
+});
+
+// Global document-level listener
+document.addEventListener("input", function (event) {
+  // Check if the input event came from your specific search field
+  if (event.target && event.target.id === "searchField") {
+    let currentText = event.target.value.trim();
+
+    // If the user cleared out the text field, instantly restore all items
+    if (currentText === "") {
+      console.log(
+        "Global Document Check: Search field cleared. Restoring board...",
+      );
+      updateResultsByCategory([]);
+      updateResultsByStatus([]);
+    }
+  }
 });
