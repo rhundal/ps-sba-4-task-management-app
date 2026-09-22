@@ -39,6 +39,8 @@ When a filter is selected, only display the tasks that match the selected catego
 Use local storage to save the current state of the task list so that tasks are restored when the page is refreshed.
 Ensure that task data (including name, category, deadline, and status) is stored and retrieved correctly.
 
+### 6. Also need to move (checking overdue functionality in document.eventListener()) / Pending
+
 ### Task Categories / Tags ⭐ / Bonus (If I had more time)
 
 Allow tasks to belong to categories such as: drop down list (gives options) Or allow multiple tags per task.
