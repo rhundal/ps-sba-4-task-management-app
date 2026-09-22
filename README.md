@@ -27,18 +27,18 @@ Completed
 - The Present: currentDate.getTime() is equal to currentDate.getTime()
 - The Future: currentDate.getTime() is less than futureDate.getTime()
 
-### 4. Filtering Tasks [SEARCH] / Wip
+### 4. Filtering Tasks [SEARCH] / Done
 
 Add functionality to filter tasks by category or status (e.g., show only “Completed” tasks or tasks under the “Work” category).
 Provide a dropdown or set of buttons for users to choose a filter.
 When a filter is selected, only display the tasks that match the selected category or status.
 
-### 5. Persisting Task Data with Local
+### 5. Persisting Task Data with Local / Pending
 
 Use local storage to save the current state of the task list so that tasks are restored when the page is refreshed.
 Ensure that task data (including name, category, deadline, and status) is stored and retrieved correctly.
 
-### Task Categories / Tags ⭐
+### Task Categories / Tags ⭐ / Bonus (If I had more time)
 
 Allow tasks to belong to categories such as: drop down list (gives options) Or allow multiple tags per task.
 
