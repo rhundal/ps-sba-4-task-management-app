@@ -18,10 +18,11 @@ Automatically check each task’s deadline and mark tasks as “Overdue” if th
 Update the displayed task list whenever a task’s status changes.
 
 Status used -
-Upcoming
-In Progress
-Overdue
-Completed
+
+- Upcoming
+- In Progress
+- Overdue
+- Completed
 
 - The Past: currentDate.getTime() is greater than pastDate.getTime()
 - The Present: currentDate.getTime() is equal to currentDate.getTime()
