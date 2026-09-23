@@ -14,8 +14,6 @@ let initialStatus = document.getElementById("statusDropDown");
 
 const addTaskBtn = document.getElementById("addTask");
 const taskListArea = document.getElementById("taskList");
-const updateTaskBtn = document.getElementById("updateTask");
-const checkOverdueBtn = document.getElementById("checkOverdue");
 const filterBtn = document.getElementById("filterTask");
 
 let upcomingListSection = taskListArea.querySelector("#upcomingList");
@@ -290,6 +288,7 @@ addTaskBtn.addEventListener("click", () => {
 
   allTasks.forEach((task) => console.log(task));
 });
+
 let foundTaskToUpdate, currentListItemId;
 
 function openModal(e) {
@@ -306,16 +305,11 @@ function openModal(e) {
 
 confirmBtn.addEventListener("click", (e) => {
   e.preventDefault();
-  // just handling the ui
   updateDialog.close(); // Have to send the select box value here.
   let newSelectedStatus = selectEl.value;
 
   updateTaskObj(foundTaskToUpdate, currentListItemId, newSelectedStatus);
   selectEl.value = "default"; // reset to default
-});
-
-checkOverdueBtn.addEventListener("click", () => {
-  checkTaskIfOverdue();
 });
 
 // filtering buttons
@@ -350,3 +344,11 @@ document.addEventListener("input", function (event) {
     }
   }
 });
+
+// Run once immediately when the script loads, so tasks are correct
+// before the user does anything at all.
+checkTaskIfOverdue();
+
+// Then re-check periodically, so a task doesn't wait on user input
+//  to become "Overdue".
+setInterval(checkTaskIfOverdue, 30 * 1000); // every 60 seconds
