@@ -41,6 +41,13 @@ Ensure that task data (including name, category, deadline, and status) is stored
 
 ### 6. Also need to move (checking overdue functionality in document.eventListener()) / Pending
 
+### 7. Topics Utilized:
+
+- Event Handling
+- Form Validation
+- Advanced DOM Manipultion (Fragments, replaceWith etc)
+- Dynamic Content Creation
+
 ### Task Categories / Tags ⭐ / Bonus (If I had more time)
 
 Allow tasks to belong to categories such as: drop down list (gives options) Or allow multiple tags per task.
