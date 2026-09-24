@@ -1,5 +1,7 @@
 ## Reflection
 
+### Vanilla JS Exercise
+
 I wanted to see how responsive could I make the UI without react, updating individual `<li>` elements as state changes
 instead of wiping and redrawing the entire list at every update. It’s a small attempt to imitate what react does
 (targeted DOM updates instead of full re-renders)
