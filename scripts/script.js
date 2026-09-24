@@ -43,6 +43,7 @@ let upComingTasks,
 function addTask(taskObj) {
   // create new li
   allTasks.push(taskObj);
+  localStorage.setItem("currentState", JSON.stringify(allTasks));
   createListItem(taskObj);
 }
 
@@ -81,14 +82,15 @@ function displayTask(itemToDisplay, taskObj) {
     completedListSection.appendChild(itemToDisplay);
   }
 }
-
 function constructTaskObj(nameEl, categoryEl, dueDateEl, statusEl) {
   let newTask = { ...task }; // 1. Make a fresh, separate copy of the template first
 
   newTask.id = allTasks.length + 1;
   newTask.name = nameEl.value;
   newTask.category = categoryEl.value;
-  newTask.deadline = new Date(dueDateEl.value).toLocaleDateString();
+  newTask.deadline = new Date(
+    dueDateEl.value + "T00:00:00",
+  ).toLocaleDateString();
   newTask.status = statusEl.value;
 
   // 3. Return the independent copy
@@ -124,6 +126,7 @@ function updateTaskObj(taskToUpdate, currentLsItemId, newStatus) {
 
   // redraw the list item
   displayTask(currentListItem, taskToUpdate);
+  localStorage.setItem("currentState", JSON.stringify(allTasks));
 }
 
 // Automatically check each task’s deadline and mark tasks as “Overdue” if the current date has passed the deadline.
@@ -132,8 +135,10 @@ function checkTaskIfOverdue() {
   // in production this will have to run once every 1 hour
 
   allTasks.forEach((task) => {
+    if (task.status.toLowerCase() === "completed") return;
+    if (task.status.toLowerCase() === "overdue") return;
     let currentDate = new Date();
-    let taskDate = new Date(task.deadline);
+    let taskDate = new Date(task.deadline); // end of the due day, local time
 
     if (taskDate.getTime() < currentDate.getTime()) {
       // currentDate.getTime will always be greater than or equal to time in the past
@@ -286,7 +291,7 @@ addTaskBtn.addEventListener("click", () => {
   dueDate.value = "";
   initialStatus.selectedIndex = 0;
 
-  allTasks.forEach((task) => console.log(task));
+  // allTasks.forEach((task) => console.log(task));
 });
 
 let foundTaskToUpdate, currentListItemId;
@@ -351,4 +356,21 @@ checkTaskIfOverdue();
 
 // Then re-check periodically, so a task doesn't wait on user input
 //  to become "Overdue".
-setInterval(checkTaskIfOverdue, 30 * 1000); // every 60 seconds
+setInterval(checkTaskIfOverdue, 60 * 1000); // every 60 seconds
+
+localStorage.getItem("currentState", allTasks);
+
+function loadTasksFromStorage() {
+  let stored = localStorage.getItem("currentState");
+  if (!stored) return;
+
+  try {
+    let parsedTasks = JSON.parse(stored);
+    allTasks = parsedTasks;
+    allTasks.forEach((taskObj) => createListItem(taskObj));
+  } catch (err) {
+    console.error("Could not load saved tasks:", err);
+  }
+}
+
+loadTasksFromStorage();
