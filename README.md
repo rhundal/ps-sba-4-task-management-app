@@ -1,5 +1,9 @@
 ## Reflection
 
+I wanted to see how responsive could I make the UI without react, updating individual `<li>` elements as state changes
+instead of wiping and redrawing the entire list at every update. It’s a small attempt to imitate what react does
+(targeted DOM updates instead of full re-renders)
+
 1. Challenges faced during the project.
    - I struggled with the local storage part a bit.
    - Also looked up some help for properly adjusting the date so overdue works properly
